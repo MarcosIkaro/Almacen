@@ -24,17 +24,10 @@ public class Productos {
         listaPr = new ArrayList<>();
         try {
             manejoJ = new ProductosJDBCImpl(getConnection());
+            listaPr.addAll(manejoJ.select());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al iniciar el manejo ala BD", "ERROR", 0);
-
         }
-    }
-    
-   //Recupera todos los datos de la base de datos
-    public void recuperarBaseDatos() {
-        listaPr.clear();
-        //Agrego a esta la lista de la base de datos
-        listaPr.addAll(manejoJ.select());
     }
 
     //Agrega un producto ala lista y a la base de datos
@@ -53,17 +46,6 @@ public class Productos {
         listaPr.remove(p);
     }
 
-    //Comprueba si existe
-    public boolean existe(Producto producto) {
-        for (Producto p : listaPr) {
-            if (p.getIdProducto() == producto.getIdProducto() && producto != null) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
     //Modifica un producto
     public int modificar(Producto p) {
         for (Producto producto : listaPr) {
@@ -75,6 +57,17 @@ public class Productos {
         }   
         JOptionPane.showMessageDialog(null, "El ID que ingresaste no pertenece a ningun producto");
         return -1;
+    }
+    
+    //Comprueba si existe
+    private boolean existe(Producto producto) {
+        for (Producto p : listaPr) {
+            if (p.getIdProducto() == producto.getIdProducto() && producto != null) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     //Tamaño de la lista

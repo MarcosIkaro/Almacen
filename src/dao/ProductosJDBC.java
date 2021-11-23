@@ -1,7 +1,8 @@
 
 package dao;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.List;
 import modelo.Producto;
 
 /**
@@ -9,8 +10,8 @@ import modelo.Producto;
  * @author Marcos Lopez
  */
 public interface ProductosJDBC {
-    public int insert(Producto p);
-    public int update(Producto p);
-    public int delete(Producto p);
-    public ArrayList<Producto> select();
+    public void insert(Producto p) throws SQLException;
+    public void update(Producto p) throws SQLException;
+    public void delete(Producto p) throws SQLException;
+    public List<Producto> select() throws SQLException;
 }

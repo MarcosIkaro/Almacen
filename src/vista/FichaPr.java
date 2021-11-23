@@ -20,7 +20,6 @@ public class FichaPr extends javax.swing.JFrame {
         this.producto = new Producto();
         this.controlProductos = new Productos();
         this.modelo = new ModeloTabla(controlProductos.getLista());
-        controlProductos.recuperarBaseDatos();
         initComponents();
     }
 
@@ -198,12 +197,9 @@ public class FichaPr extends javax.swing.JFrame {
     //Evia la peticion de Guardar
     private void guardar() {
         if (validar()) {
-            //Recupera el producto del TexftField
             this.producto = getProducto();
-            //Le pasa el producto para que debe actualizar
-            controlProductos.agregar(producto);
-            //Actualiza la tabla y el TextField
-            modelo.fireTableRowsInserted(controlProductos.cantidad() - 1, controlProductos.cantidad() - 1);
+            this.controlProductos.agregar(this.producto);
+            this.modelo.fireTableRowsInserted(this.controlProductos.cantidad() - 1, this.controlProductos.cantidad() - 1);
             limpiarTodo();
         }
     }
@@ -211,35 +207,28 @@ public class FichaPr extends javax.swing.JFrame {
     //Envia la peticion de actualizar 
     private void actualizar() {
         if (validar()) {
-            //recupero el producto del textField
             this.producto = getProducto();
-            //Le paso el producto que debe modificar
-            controlProductos.modificar(producto);
-            //Actualizo los datos tabla y textField
-            tabla.repaint();
+            this.controlProductos.modificar(this.producto);
+            this.tabla.repaint();
             limpiarTodo();
         }
     }
     //Envia la peticion de eliminar un producto
     private void eliminar(){
         if(validar()){  
-            //Recupero de la lista el producto que seleccione
-            producto = modelo.obtenerLibroEn(tabla.getSelectedRow());
-            //Le paso el producto que debe eliminar
-            controlProductos.eliminar(producto);
-            //Actualizo el field y actualiza la tabla
+            this.producto = this.modelo.obtenerLibroEn(this.tabla.getSelectedRow());
+            this.controlProductos.eliminar(this.producto);
             limpiarTodo();
-            tabla.repaint();
+            this.tabla.repaint();
         }
     }
     //Realiza las comprabaciones para realizar o no un metodo
     public boolean validar() {        
-        //comprueba si los text field no estan en blancos
-        if(txfIdProducto.getText().isBlank() ){ JOptionPane.showMessageDialog(rootPane, "Código vacío"); return false;}
-        if(txfNombre.getText().isBlank() ){ JOptionPane.showMessageDialog(rootPane, "Nombre vacío"); return false;}
-        if(txfPrecio.getText().isBlank() ){ JOptionPane.showMessageDialog(rootPane, "Precio vacío"); return false;}
-        //Comprueba si el id y el precio, solo contine numeros
-        try { int a = Integer.parseInt(txfIdProducto.getText());
+        if(this.txfIdProducto.getText().isBlank() ){ JOptionPane.showMessageDialog(rootPane, "Código vacío"); return false;}
+        if(this.txfNombre.getText().isBlank() ){ JOptionPane.showMessageDialog(rootPane, "Nombre vacío"); return false;}
+        if(this.txfPrecio.getText().isBlank() ){ JOptionPane.showMessageDialog(rootPane, "Precio vacío"); return false;}
+
+        try { int a = Integer.parseInt(this.txfIdProducto.getText());
         }catch (NumberFormatException ex){ 
             JOptionPane.showMessageDialog(rootPane, "Código debe ser Entero"); return false;
         }

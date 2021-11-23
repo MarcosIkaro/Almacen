@@ -12,7 +12,7 @@ public class Conexion {
     //Atributo
     private static BasicDataSource dataSource;
 
-    //Retorna un dataSource personalizado
+    //Retorna una conexion personalizada
     public static DataSource getDataSource() {
         if (dataSource == null) {
             dataSource = new BasicDataSource();
@@ -24,21 +24,33 @@ public class Conexion {
         return dataSource;
     }
     
-    //Metodo que retorna una conexion
+    //Metodo para recuperar la conexion
     public static Connection getConnection() throws SQLException { 
         return getDataSource().getConnection();
     }
 
     //Metodos para cerrar los flujos
-    public static void close(ResultSet rs) throws SQLException {
-        rs.close();
+    public static void close(ResultSet rs) {
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al cerrar ResultSet");
+        }
     }
 
-    public static void close(PreparedStatement ps) throws SQLException {
-        ps.close();
+    public static void close(PreparedStatement ps) {
+        try {
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al cerrar al cerrar el preparedStatement");
+        }
     }
 
-    public static void close(Connection con) throws SQLException {
-        con.close();
+    public static void close(Connection con){
+        try {
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al cerrar la conexion");
+        }
     }
 }
